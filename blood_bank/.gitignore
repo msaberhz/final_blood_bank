@@ -1,6 +1,7 @@
 # Ignore virtual environment
 env/
 
+git rm --cached -r env/
 # Ignore compiled Python files
 __pycache__/
 *.pyc
