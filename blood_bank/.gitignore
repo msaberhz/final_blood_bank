@@ -1,0 +1,16 @@
+# Ignore virtual environment
+env/
+
+# Ignore compiled Python files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore database files
+db.sqlite3
+
+# Ignore IDE and editor files
+.vscode/
+.idea/
+*.sublime-workspace
+

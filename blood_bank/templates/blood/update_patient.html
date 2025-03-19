@@ -1,0 +1,149 @@
+{% extends 'blood/adminbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+{% load static %}
+
+<head>
+    <!-- فونت مخصوص -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <!-- استایل اصلی -->
+    <link href="{% static 'css/main.css' %}" rel="stylesheet" media="all">
+</head>
+
+<div class="page-wrapper bg-gra-03 p-t-45 p-b-50">
+    <div class="wrapper wrapper--w790">
+        <div class="card card-5">
+            <div class="card-heading">
+                <h2 class="title">Update Patient</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" autocomplete="off" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="form-row">
+                        <div class="name">First Name</div>
+                        <div class="value">
+                            <div class="input-group">
+                                {% render_field userForm.first_name class="input--style-5" required="true" %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Last Name</div>
+                        <div class="value">
+                            <div class="input-group">
+                                {% render_field userForm.last_name class="input--style-5" required="true" %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Username</div>
+                        <div class="value">
+                            <div class="input-group">
+                                {% render_field userForm.username class="input--style-5" required="true" %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Password</div>
+                        <div class="value">
+                            <div class="input-group">
+                                {% render_field userForm.password class="input--style-5" %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Age</div>
+                        <div class="value">
+                            <div class="input-group">
+                                {% render_field patientForm.age class="input--style-5" required="true" %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Blood Group</div>
+                        <div class="value">
+                            <div class="input-group">
+                                <select name="bloodgroup" class="input--style-5">
+                                    <option disabled>Choose option</option>
+                                    <option value="O+" {% if patientForm.instance.bloodgroup == "O+" %}selected{% endif %}>O+</option>
+                                    <option value="O-" {% if patientForm.instance.bloodgroup == "O-" %}selected{% endif %}>O-</option>
+                                    <option value="A+" {% if patientForm.instance.bloodgroup == "A+" %}selected{% endif %}>A+</option>
+                                    <option value="A-" {% if patientForm.instance.bloodgroup == "A-" %}selected{% endif %}>A-</option>
+                                    <option value="B+" {% if patientForm.instance.bloodgroup == "B+" %}selected{% endif %}>B+</option>
+                                    <option value="B-" {% if patientForm.instance.bloodgroup == "B-" %}selected{% endif %}>B-</option>
+                                    <option value="AB+" {% if patientForm.instance.bloodgroup == "AB+" %}selected{% endif %}>AB+</option>
+                                    <option value="AB-" {% if patientForm.instance.bloodgroup == "AB-" %}selected{% endif %}>AB-</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Disease (if any)</div>
+                        <div class="value">
+                            <div class="input-group">
+                                {% render_field patientForm.disease class="input--style-5" %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Doctor</div>
+                        <div class="value">
+                            <div class="input-group">
+                                {% render_field patientForm.doctorname class="input--style-5" required="true" %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Address</div>
+                        <div class="value">
+                            <div class="input-group">
+                                {% render_field patientForm.address class="input--style-5" required="true" %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Mobile</div>
+                        <div class="value">
+                            <div class="input-group">
+                                {% render_field patientForm.mobile class="input--style-5" required="true" %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Profile Picture</div>
+                        <div class="value">
+                            <div class="input-group">
+                                {% if patientForm.instance.profile_pic %}
+                                    <img src="{{ patientForm.instance.profile_pic.url }}" alt="Profile Picture"
+                                         width="120" height="120" style="border-radius: 10px; margin-bottom: 10px;">
+                                {% else %}
+                                    <p>No Profile Picture</p>
+                                {% endif %}
+                                <br>
+                                {% render_field patientForm.profile_pic class="input--style-5" %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <button class="btn btn--radius-2 btn-info" type="submit">Update</button>
+                    </div>
+                </form>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

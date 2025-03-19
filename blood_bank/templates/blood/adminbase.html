@@ -1,0 +1,159 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADMIN</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css">
+
+    <style>
+        body {
+            background-color: #f3f5f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .wrapper {
+            display: flex;
+        }
+
+        /* Sidebar: در حالت دسکتاپ همیشه قابل مشاهده است */
+        .sidebar {
+            width: 200px;
+            background: #343a40;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* حالت موبایل: Sidebar مخفی می‌شود */
+        @media (max-width: 767.98px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar ul li {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar ul li a {
+            color: #bdb8d7;
+            text-decoration: none;
+            display: block;
+        }
+
+        .sidebar ul li:hover {
+            background-color: #594f8d;
+        }
+
+        /* محتوای اصلی */
+        .main_content {
+            flex: 1;
+            margin-left: 200px;
+            width: calc(100% - 200px);
+            padding: 20px;
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        /* در حالت موبایل، محتوای اصلی به حالت تمام عرض درمی‌آید */
+        @media (max-width: 767.98px) {
+            .main_content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .main_content.shifted {
+                margin-left: 200px;
+            }
+        }
+
+        .navbar {
+            background-color: #40E0D0 !important;
+        }
+
+        .navbar-toggler {
+            border: none;
+        }
+        body {
+            padding-top: 56px; /* ارتفاع navbar */
+          }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <a class="navbar-brand text-white" href="/">
+            <img src="{% static 'image/health.png' %}" style="width: 30px; height: 40px;" alt="">
+            &nbsp;<font face="Comic sans MS" size="4">Health Blood Bank</font>
+        </a>
+        <button class="navbar-toggler" type="button" onclick="toggleSidebar()">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        {% comment %} this is logout button {% endcomment %}
+
+          <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                  <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="nav-link" style="color: white; background: none; border: none; padding: 0; cursor: pointer;">
+                        Logout &nbsp; <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </form>
+              </li>
+              
+          </ul>
+
+    </nav>
+
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <ul>
+                <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="/admin-donor"><i class="fas fa-user"></i> Donor</a></li>
+                <li><a href="/admin-patient"><i class="fas fa-user-injured"></i> Patient</a></li>
+                <li><a href="/admin-donation"><i class="fas fa-hand-holding-medical"></i> Donations</a></li>
+                <li><a href="/admin-request"><i class="fas fa-sync-alt"></i> Blood Requests</a></li>
+                <li><a href="/admin-request-history"><i class="fas fa-history"></i> Monthly Report </a></li>
+                <li><a href="/admin-blood"><i class="fas fa-hand-holding-water"></i> Blood Stock</a></li>
+                <li><a href="/feedback"><i class="fas fa-comments"></i> Feedback</a></li>
+            </ul>
+        </div>
+
+        <!-- محتوای اصلی -->
+        <div class="main_content" id="mainContent">
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            sidebar.classList.toggle('show');
+            mainContent.classList.toggle('shifted');
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

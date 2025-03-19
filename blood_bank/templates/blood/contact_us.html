@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - Blood Bank</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css">
+</head>
+
+<body>
+  <header class="bg-info text-white text-center py-2 fixed-top">
+    <a href="/" class="home-button">
+      <button  style="border-radius: 10px; color: gray;">back to home</button>
+  </a>
+    <h1>Contact Us <i class="fas fa-envelope"></i></h1>
+  </header>
+  <main class="container d-flex justify-content-center align-items-center" style="min-height: 100vh; padding-top: 100px; padding-bottom: 60px;">
+    <div class="card w-100" style="max-width: 500px;">
+      <div class="card-body">
+        <h2 class="card-title text-center">Get in Touch</h2>
+        <div class="social-icons text-center mb-4">
+          <a href="https://www.facebook.com" target="_blank" class="text-info mx-2"><i class="fab fa-facebook"></i></a>
+          <a href="https://www.twitter.com" target="_blank" class="text-info mx-2"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.instagram.com" target="_blank" class="text-info mx-2"><i class="fab fa-instagram"></i></a>
+        </div>
+        {% if success %}
+        <p class="text-success text-center">Your message has been sent successfully!</p>
+        {% endif %}
+        <form method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="4" class="form-control" required></textarea>
+          </div>
+          <div class="form-group text-center">
+            <button type="submit" class="btn btn-info">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+  <footer class="bg-info text-white text-center py-1 fixed-bottom">
+    <p>Health Blood Bank &copy; 2024.</p>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJTY4EcvL1G/bb8m3COUhPHfs9JpAoj8WXzvXsFgl6B6gECyD" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-smHYkdP+gPxT8qFNpr3ZX1f6Jp01eTTvFzCAv6VRP6B5Phb49GVf5MWxGsw+c49N" crossorigin="anonymous"></script>
+</body>
+
+</html>

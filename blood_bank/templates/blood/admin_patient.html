@@ -1,0 +1,88 @@
+{% extends 'blood/adminbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+{% load static %}
+<br><br>
+<div class="container">
+    <h4 class="text-center mb-4">Patient Details</h4>
+
+    <!-- 🔍 فیلد جستجو -->
+    <div class="mb-3">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search patient by name, blood group, age, disease, or mobile...">
+    </div>
+
+    <table class="table table-bordered table-hover table-striped">
+        <thead class="bg-info text-white">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Profile</th>
+                <th scope="col">Blood Group</th>
+                <th scope="col">Age</th>
+                <th scope="col">Disease</th>
+                <th scope="col">Mobile</th>
+                <th class="text-right">Action</th>
+            </tr>
+        </thead>
+        <tbody id="patientTable">
+            {% for t in patients %}
+            <tr>
+                <td>{{ t.get_name }}</td>
+                <td><img src="{% static t.profile_pic.url %}" alt="Profile Pic" class="img-thumbnail" style="height: 40px; width: 40px;" /></td>
+                <td>{{ t.bloodgroup }}</td>
+                <td>{{ t.age }}</td>
+                <td>{{ t.disease }}</td>
+                <td>{{ t.mobile }}</td>
+                <td class="text-right">
+                    {% comment %} <a class="btn btn-primary btn-sm rounded-circle" href="{% url 'update-patient' t.id %}">
+                        <i class="fas fa-edit"></i> Edit
+                    </a> {% endcomment %}
+                    <a class="btn btn-danger btn-sm rounded-circle" href="{% url 'delete-patient' t.id %}" onclick="return confirmDelete(this);">
+                        <i class="fas fa-trash-alt"></i> Delete
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmDelete(element) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = element.href;
+            }
+        });
+        return false;
+    }
+
+    // ✅ اسکریپت جستجو زنده (Live Search)
+    document.getElementById('searchInput').addEventListener('keyup', function () {
+        let input = this.value.toLowerCase();
+        let rows = document.querySelectorAll('#patientTable tr');
+
+        rows.forEach(row => {
+            let name = row.cells[0].innerText.toLowerCase();
+            let bloodGroup = row.cells[2].innerText.toLowerCase();
+            let age = row.cells[3].innerText.toLowerCase();
+            let disease = row.cells[4].innerText.toLowerCase();
+            let mobile = row.cells[5].innerText.toLowerCase();
+
+            if (name.includes(input) || bloodGroup.includes(input) || age.includes(input) || disease.includes(input) || mobile.includes(input)) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    });
+</script>
+{% endblock content %}

@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Health Blood Bank</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <div style="background-color: #40e0d0;">
+    <nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary">
+      <div class="container-fluid">
+        <a href="/" class="navbar-brand text-danger"><img src="{% static 'image/health.png' %}" style="width: 30px; height: 40px;" alt="">&nbsp; Health Blood Bank</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link text-white" href="/"><i class="fas fa-home"></i>&nbsp; Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="/patient/patientlogin"><i class="fas fa-procedures"></i>&nbsp; Patient</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="/donor/donorlogin"><i class="fas fa-user"></i>&nbsp; Donor</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="/adminlogin"><i class="fas fa-user-shield"></i>&nbsp; Admin</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                About us
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="{% url 'about_us' %}"><i class="fas fa-info-circle"></i>&nbsp; About us</a>
+                <a class="dropdown-item" href="{% url 'contact_us' %}"><i class="fas fa-envelope"></i>&nbsp; Contact us</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+</body>
+
+</html>

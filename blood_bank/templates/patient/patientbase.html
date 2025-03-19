@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PATIENT</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css">
+
+    <style>
+        /* استایل‌های کلی */
+        body {
+            background-color: #f3f5f9;
+            position: relative; /* برای اطمینان از اینکه z-index درست عمل کند */
+        }
+
+        .wrapper {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .sidebar {
+            width: 200px;
+            background: #343a40;
+            padding: 30px 0;
+            position: fixed;
+            height: 100%;
+            transition: transform 0.3s ease-in-out;
+            z-index: 999; /* اطمینان از اینکه sidebar بالای محتوا باشد */
+        }
+
+        .main_content {
+            margin-left: 200px;
+            flex: 1;
+            padding: 20px;
+            transition: margin 0.3s ease-in-out;
+            z-index: 1; /* اطمینان از اینکه محتوای اصلی پایین‌تر از sidebar باشد */
+        }
+
+        /* حالت موبایل */
+        @media (max-width: 767.98px) {
+            .sidebar {
+                transform: translateX(-200px); /* مخفی کردن sidebar در موبایل */
+            }
+
+            .sidebar.show {
+                transform: translateX(0); /* نمایش sidebar در موبایل */
+                z-index: 999; /* در حالت نمایش، sidebar بالاتر از محتوا باشد */
+            }
+
+            .main_content {
+                margin-left: 0; /* حذف فاصله در موبایل */
+                z-index: 1; /* در حالت نمایش sidebar، محتوا پشت آن قرار می‌گیرد */
+            }
+        }
+
+        /* استایل‌های نوار ناوبری */
+        .navbar {
+            background-color: #40E0D0 !important;
+        }
+
+        .navbar-toggler {
+            border: none;
+        }
+
+        .navbar-toggler:focus {
+            outline: none;
+        }
+
+        /* استایل‌های sidebar */
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar ul li a {
+            color: #bdb8d7;
+            text-decoration: none;
+            display: block;
+        }
+
+        .sidebar ul li a:hover {
+            color: #fff;
+        }
+
+        .sidebar ul li:hover {
+            background-color: #594f8d;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <a class="navbar-brand text-white" href="/">
+            <img src="{% static 'image/health.png' %}" style="width: 30px; height: 40px;" alt="">
+            &nbsp;<font face="Comic sans MS" size="4">Health Blood Bank</font>
+        </a>
+
+        <!-- دکمه Toggle فقط در موبایل نمایش داده می‌شود -->
+        <button class="navbar-toggler d-block d-md-none" type="button" onclick="toggleSidebar()">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+  
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-link nav-link text-white">
+                            Logout &nbsp; <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        
+    </nav>
+
+    <br><br>
+
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <ul>
+                <li><a href="/"><i class="fas fa-home"></i>Home</a></li>
+                <li><a href="/patient/make-request"><i class="fas fa-sync-alt"></i>Make Request</a></li>
+                <li><a href="/patient/my-request"><i class="fas fa-history"></i>Request History</a></li>
+                <li><a href="/patient/p_feedback"><i class="fas fa-paper-plane"></i>Feedback</a></li>
+                <li><a href="{% url 'update_patient' %}"><i class="fas fa-edit"></i>Edit Profile</a></li>
+            </ul>
+        </div>
+
+        <!-- محتوای اصلی -->
+        <div class="main_content" id="mainContent">
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </div>
+
+    <script>
+        // تابع toggle برای نمایش یا مخفی کردن sidebar در موبایل
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            sidebar.classList.toggle('show');
+
+            // بررسی وضعیت و تغییر z-index محتوا
+            if (sidebar.classList.contains('show')) {
+                mainContent.style.zIndex = 0; // محتوای اصلی پشت sidebar
+            } else {
+                mainContent.style.zIndex = 1; // محتوای اصلی جلوی sidebar
+            }
+        }
+
+        // مخفی کردن sidebar هنگام تغییر صفحات در موبایل
+        document.addEventListener('DOMContentLoaded', function () {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            if (window.innerWidth <= 767.98) {
+                sidebar.classList.remove('show'); // مخفی کردن sidebar در موبایل
+                mainContent.style.zIndex = 1; // اطمینان از اینکه محتوا جلوی sidebar قرار دارد
+            }
+        });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+{% extends 'blood/adminbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+{% load static %}
+
+<head>
+    <style>
+        .label {
+            color: white;
+            padding: 8px;
+        }
+
+        .success {background-color: #4CAF50;}
+        .info {background-color: #2196F3;} 
+        .warning {background-color: #ff9800;}
+        .danger {background-color: #f44336;} 
+        .other {background-color: #e7e7e7; color: black;}
+
+        .refresh-icon {
+            cursor: pointer;
+            font-size: 24px;
+            color: #2196F3;
+        }
+
+        .refresh-icon:hover {
+            color: #0d6efd;
+        }
+    </style>
+</head>
+
+<br><br>
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+        <h4 class="text-center">Monthly Blood Donation & Request History</h4>
+        <!-- آیکن رفرش -->
+        <i class="fas fa-sync-alt refresh-icon" onclick="refreshPage()" title="Refresh"></i>
+    </div>
+    <br>
+
+    {% if message %}
+        <h5 class="text-center" style="color: red;">{{ message }}</h5><br>
+    {% endif %}
+
+    <!-- جدول درخواست خون -->
+    <h5 class="text-center bg-warning text-white p-2">Monthly Blood Requests (Received Blood)</h5>
+    <table class="table table-light table-hover table-bordered table-striped">
+        <thead class="bg-info">
+            <tr>
+                <th scope="col">Month</th>
+                <th scope="col">Total Requests</th>
+                <th scope="col">Total Received Units (cc)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in received_blood %}
+            <tr>
+                <td>{{ t.month|date:"F Y" }}</td> 
+                <td>{{ t.total_requests }}</td> 
+                <td>{{ t.total_units }}</td>  
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- جدول اهدا خون -->
+    <h5 class="text-center bg-success text-white p-2">Monthly Blood Donations (Donated Blood)</h5>
+    <table class="table table-light table-hover table-bordered table-striped">
+        <thead class="bg-info">
+            <tr>
+                <th scope="col">Month</th>
+                <th scope="col">Total Donations</th>
+                <th scope="col">Total Donated Units (cc)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in donated_blood %}
+            <tr>
+                <td>{{ t.month|date:"F Y" }}</td> 
+                <td>{{ t.total_donations }}</td> 
+                <td>{{ t.total_donated_units }}</td>  
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // تابع برای رفرش صفحه
+    function refreshPage() {
+        window.location.reload();
+    }
+</script>
+
+{% endblock content %}
